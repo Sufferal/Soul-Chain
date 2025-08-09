@@ -3,6 +3,7 @@ import type { Habit as HabitType } from '../../types/habit';
 import { HabitStyle } from '../../constants/styles';
 import { formatHabitDate } from '@/utils/date';
 import { formatHabitStatus } from '@/utils/title';
+import { HabitEntry } from './HabitEntry';
 
 type HabitProps = {
   habit: HabitType;
@@ -24,15 +25,15 @@ export const Habit: React.FC<HabitProps> = ({ habit }) => {
   if (history.length) {
     habitHistory = history.map((entry) => {
       const { status, date } = entry;
-      const { bg, color, icon: HabitIcon } = HabitStyle[status];
+      const { palette, icon } = HabitStyle[status];
       const entryId = `${id}-${date}`;
 
       return (
         <Timeline.Item key={entryId}>
           <Timeline.Connector>
             <Timeline.Separator />
-            <Timeline.Indicator bg={bg} color={color}>
-              <HabitIcon />
+            <Timeline.Indicator>
+              <HabitEntry palette={palette} icon={icon} />
             </Timeline.Indicator>
           </Timeline.Connector>
           <Timeline.Content gap={1}>

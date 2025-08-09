@@ -9,4 +9,12 @@ type HabitRecord = {
   status: HabitStatus; 
 }
 
-export type HabitStatus = 'done' | 'missed' | 'skipped' | 'inProgress';
+export const HABIT_STATUSES = [
+  'done',
+  'missed',
+  'skipped',
+  'inProgress',
+  'unknown'
+] as const;
+
+export type HabitStatus = (typeof HABIT_STATUSES)[number];

@@ -9,6 +9,7 @@ const MOCK_HABITS: Habit[] = [
       { status: 'done', date: '2025-08-03' },
       { status: 'skipped', date: '2025-08-02' },
       { status: 'missed', date: '2025-08-01' },
+      { status: 'unknown', date: '2025-07-31' },
     ],
   },
   {

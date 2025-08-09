@@ -54,6 +54,7 @@ export const Habit: React.FC<HabitProps> = ({ habit }) => {
         borderColor="teal.contrast"
         rounded="sm"
         p={4}
+        pb={!history.length ? 4 : 0}
       >
         {habitHistory}
       </Timeline.Root>

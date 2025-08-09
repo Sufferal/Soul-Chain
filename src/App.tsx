@@ -1,13 +1,10 @@
-import { Button, HStack } from '@chakra-ui/react';
+import { HabitList } from './components/common/HabitList';
+import MOCK_HABITS from './mocks/habits';
 
 function App() {
   return (
     <>
-      <h1>Hello, World!</h1>
-      <HStack>
-        <Button>Click me</Button>
-        <Button>Click me</Button>
-      </HStack>
+      <HabitList habits={MOCK_HABITS} />
     </>
   );
 }

@@ -1,18 +1,40 @@
-import { HabitIcons } from '@/constants/styles';
-import { HABIT_STATUSES } from '@/types/habit';
+import { HabitIcons, HabitStyle } from '@/constants/styles';
+import {
+  HABIT_STATUSES,
+  type HabitRecord,
+  type HabitStatus,
+} from '@/types/habit';
+import { formatHabitDate } from '@/utils/date';
 import { formatHabitStatus } from '@/utils/title';
-import { Box, IconButton, Menu, Portal } from '@chakra-ui/react';
+import {
+  Box,
+  IconButton,
+  Menu,
+  Portal,
+  Timeline,
+  type MenuSelectionDetails,
+} from '@chakra-ui/react';
+import { useState } from 'react';
 
 type HabitEntryProps = {
-  palette: string;
-  icon: React.ElementType;
+  item: HabitRecord;
+  onSelect: () => void;
 };
 
-export const HabitEntry: React.FC<HabitEntryProps> = ({ palette, icon }) => {
-  const HabitEntryIcon = icon;
+export const HabitEntry: React.FC<HabitEntryProps> = ({ item, onSelect }) => {
+  const { status: initialStatus, date } = item;
+  const [status, setStatus] = useState(initialStatus);
+  const { palette, icon: HabitEntryIcon } = HabitStyle[status];
 
-  return (
-    <Menu.Root>
+  const handleSelect = (details: MenuSelectionDetails) => {
+    // TODO: Update parameters
+    if (onSelect) onSelect();
+    const currentStatus = details.value as HabitStatus;
+    setStatus(currentStatus);
+  };
+
+  const habitMenu = (
+    <Menu.Root onSelect={handleSelect}>
       <Menu.Trigger asChild>
         <IconButton size="xs" colorPalette={palette} rounded="full">
           <HabitEntryIcon />
@@ -35,5 +57,18 @@ export const HabitEntry: React.FC<HabitEntryProps> = ({ palette, icon }) => {
         </Menu.Positioner>
       </Portal>
     </Menu.Root>
+  );
+
+  return (
+    <Timeline.Item>
+      <Timeline.Connector>
+        <Timeline.Separator />
+        <Timeline.Indicator>{habitMenu}</Timeline.Indicator>
+      </Timeline.Connector>
+      <Timeline.Content gap={1}>
+        <Timeline.Title>{formatHabitStatus(status)}</Timeline.Title>
+        <Timeline.Description>{formatHabitDate(date)}</Timeline.Description>
+      </Timeline.Content>
+    </Timeline.Item>
   );
 };

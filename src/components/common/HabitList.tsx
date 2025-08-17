@@ -1,4 +1,4 @@
-import { Box, Flex } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/react';
 import type { Habit as HabitType } from '../../types/habit';
 import { Habit } from './Habit';
 
@@ -8,12 +8,10 @@ type HabitListProps = {
 
 export const HabitList: React.FC<HabitListProps> = ({ habits }) => {
   return (
-    <Box px={"100px"}>
-      <Flex gap={10}>
-        {habits.map((habit) => (
-          <Habit key={habit.id} habit={habit} />
-        ))}
-      </Flex>
-    </Box>
+    <Flex gap={10}>
+      {habits.map((habit) => (
+        <Habit key={habit.id} habit={habit} />
+      ))}
+    </Flex>
   );
 };

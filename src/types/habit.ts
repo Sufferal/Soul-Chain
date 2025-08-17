@@ -4,7 +4,7 @@ export type Habit = {
   history: HabitRecord[];
 }
 
-type HabitRecord = {
+export type HabitRecord = {
   date: string;
   status: HabitStatus; 
 }

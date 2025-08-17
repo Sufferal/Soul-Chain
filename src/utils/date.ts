@@ -9,3 +9,7 @@ export const formatHabitDate = (dateString: string): string => {
 
   return formatter.format(date);
 };
+
+export const getToday = (): string => {
+  return new Date().toISOString().split("T")[0];
+};

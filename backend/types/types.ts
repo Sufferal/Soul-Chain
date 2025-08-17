@@ -2,22 +2,19 @@ export type Habit = {
   id: string;
   name: string;
   history: HabitRecord[];
-  startDate?: string;
-  defaultStatus?: string;
-};
+}
 
 export type HabitRecord = {
-  id?: string;
   date: string;
-  status: HabitStatus;
-};
+  status: HabitStatus; 
+}
 
 export const HABIT_STATUSES = [
   'done',
   'missed',
   'skipped',
   'inProgress',
-  'unknown',
+  'unknown'
 ] as const;
 
 export type HabitStatus = (typeof HABIT_STATUSES)[number];

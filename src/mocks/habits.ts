@@ -131,7 +131,7 @@ export const MOCK_HABITS_2: Habit[] = [
 export const MOCK_HABITS_3: Habit[] = [
   {
     id: 'h1',
-    name: 'Test',
+    name: 'Habit Status',
     history: [
       { status: 'inProgress', date: '2025-08-04' },
       { status: 'done', date: '2025-08-03' },

@@ -1,3 +1,4 @@
+import { useUpdateHabitStatusMutation } from '@/api/habitsApi';
 import { HabitIcons, HabitStyle } from '@/constants/styles';
 import {
   HABIT_STATUSES,
@@ -17,20 +18,36 @@ import {
 import { useState } from 'react';
 
 type HabitEntryProps = {
+  habitId: string;
   item: HabitRecord;
   onSelect: () => void;
 };
 
-export const HabitEntry: React.FC<HabitEntryProps> = ({ item, onSelect }) => {
+export const HabitEntry: React.FC<HabitEntryProps> = ({
+  habitId,
+  item,
+  onSelect,
+}) => {
   const { status: initialStatus, date } = item;
   const [status, setStatus] = useState(initialStatus);
   const { palette, icon: HabitEntryIcon } = HabitStyle[status];
+  const [updateHabitStatus] = useUpdateHabitStatusMutation();
 
-  const handleSelect = (details: MenuSelectionDetails) => {
+  const handleSelect = async (details: MenuSelectionDetails) => {
     // TODO: Update parameters
     if (onSelect) onSelect();
-    const currentStatus = details.value as HabitStatus;
-    setStatus(currentStatus);
+    const newStatus = details.value as HabitStatus;
+
+    try {
+      const updatedRecord = await updateHabitStatus({
+        id: habitId,
+        date,
+        status: newStatus,
+      }).unwrap();
+      setStatus(updatedRecord.status);
+    } catch (err) {
+      console.error('Failed to update habit status', err);
+    }
   };
 
   const habitMenu = (

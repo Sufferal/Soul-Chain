@@ -1,3 +1,4 @@
+import { useCreateHabitMutation } from '@/api/habitsApi';
 import { KEYS } from '@/constants/keys';
 import { HabitIcons } from '@/constants/styles';
 import useKeyboardShortcut from '@/hooks/useKeyboardShortcut';
@@ -21,6 +22,7 @@ import { useRef, useState, type FormEvent } from 'react';
 export const HabitForm: React.FC = () => {
   const [open, setOpen] = useState(false);
   const initialInputRef = useRef<HTMLInputElement>(null);
+  const [createHabit] = useCreateHabitMutation();
   const statusCollection = createListCollection({
     items: HABIT_STATUSES,
     itemToString: (item) => formatHabitStatus(item),
@@ -30,22 +32,27 @@ export const HabitForm: React.FC = () => {
     setOpen(true);
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
     const target = e.currentTarget as HTMLFormElement;
     if (!e.currentTarget) return;
 
     const data = new FormData(target);
-    const newHabit = {
-      name: data.get('name'),
-      startDate: data.get('startDate'),
-      statusTillToday: data.get('statusTillToday'),
-    };
+    const name = data.get('name')?.toString() || '';
+    const startDate = data.get('startDate')?.toString() || '';
+    const defaultStatus = data.get('defaultStatus')?.toString() || '';
 
-    console.log('newHabit', newHabit);
-
-    setOpen(false);
+    try {
+      await createHabit({
+        name,
+        startDate,
+        defaultStatus,
+      }).unwrap();
+      setOpen(false);
+    } catch {
+      console.error('There was an error while submitting the form.');
+    }
   };
 
   useKeyboardShortcut(KEYS.N, handleDialogOpen);
@@ -96,7 +103,7 @@ export const HabitForm: React.FC = () => {
                     <Field.Root>
                       <Field.Label>Status until today</Field.Label>
                       <Select.Root
-                        name="statusTillToday"
+                        name="defaultStatus"
                         collection={statusCollection}
                       >
                         <Select.HiddenSelect />

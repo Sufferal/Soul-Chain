@@ -15,7 +15,7 @@ export const Habit: React.FC<HabitProps> = ({ habit }) => {
     habitHistory = (
       <Heading size="sm" fontStyle="italic">
         No data to display
-      </Heading>
+      </Heading> 
     );
   }
 
@@ -24,7 +24,7 @@ export const Habit: React.FC<HabitProps> = ({ habit }) => {
       const entryId = `${id}-${entry.date}`;
 
       return (
-        <HabitEntry key={entryId} item={entry} onSelect={() => {}} />
+        <HabitEntry key={entryId} habitId={id} item={entry} onSelect={() => {}} />
       );
     });
   }
